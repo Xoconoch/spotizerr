@@ -18,6 +18,7 @@ class DownloadQueue {
   constructor() {
     this.downloadQueue = {}; // keyed by unique queueId
     this.currentConfig = {}; // Cache for current config
+    this._updateQueueDebounceTimeout = null; // Debounce variable for queue updates
 
     // Load the saved visible count (or default to 10)
     const storedVisibleCount = localStorage.getItem("downloadQueueVisibleCount");
@@ -45,7 +46,7 @@ class DownloadQueue {
             <button class="close-btn" aria-label="Close queue">&times;</button>
           </div>
         </div>
-        <div id="queueItems" aria-live="polite"></div>
+        <div id="queueItems" aria-live="off"></div>
         <div id="queueFooter"></div>
       </div>
     `;
@@ -175,6 +176,10 @@ class DownloadQueue {
         clearInterval(entry.intervalId);
         return;
       }
+      // Don't try to update DOM elements if they're not in the document
+      if (!logElement || !document.body.contains(logElement)) {
+        return;
+      }
       try {
         const response = await fetch(`/api/prgs/${entry.prgFile}`);
         const data = await response.json();
@@ -279,7 +284,7 @@ class DownloadQueue {
     const defaultMessage = (type === 'playlist') ? 'Reading track list' : 'Initializing download...';
     const div = document.createElement('article');
     div.className = 'queue-item';
-    div.setAttribute('aria-live', 'polite');
+    div.setAttribute('aria-live', 'off');
     div.setAttribute('aria-atomic', 'true');
     div.innerHTML = `
       <div class="title">${item.name}</div>
@@ -318,6 +323,17 @@ class DownloadQueue {
 
   /* Reorders the queue display, updates the total count, and handles "Show more" */
   updateQueueOrder() {
+    // Prevent rapid, sequential refreshes by using a debounce mechanism
+    if (this._updateQueueDebounceTimeout) {
+      clearTimeout(this._updateQueueDebounceTimeout);
+    }
+
+    this._updateQueueDebounceTimeout = setTimeout(() => {
+      this._performQueueUpdate();
+    }, 150); // 150ms debounce time to group rapid update requests
+  }
+
+  _performQueueUpdate() {
     const container = document.getElementById('queueItems');
     const footer = document.getElementById('queueFooter');
     const entries = Object.values(this.downloadQueue);
@@ -349,13 +365,38 @@ class DownloadQueue {
 
     document.getElementById('queueTotalCount').textContent = entries.length;
     const visibleEntries = entries.slice(0, this.visibleCount);
-    container.innerHTML = '';
-    visibleEntries.forEach(entry => {
-      container.appendChild(entry.element);
-      if (!entry.intervalId) {
-        this.startEntryMonitoring(entry.uniqueId);
+    
+    // Check if we need to rebuild the entire list or just update existing elements
+    // This avoids completely destroying and rebuilding the DOM on every update
+    let needsRebuild = false;
+    
+    // Only rebuild if the visible entries don't match the current DOM elements
+    if (container.children.length !== visibleEntries.length) {
+      needsRebuild = true;
+    } else {
+      // Check if the current DOM order matches our expected order
+      for (let i = 0; i < visibleEntries.length; i++) {
+        const currentElement = container.children[i];
+        const queueId = currentElement.querySelector('.cancel-btn')?.dataset.queueid;
+        
+        if (!queueId || queueId !== visibleEntries[i].uniqueId) {
+          needsRebuild = true;
+          break;
+        }
       }
-    });
+    }
+    
+    // Only rebuild the DOM when necessary
+    if (needsRebuild) {
+      container.innerHTML = '';
+      visibleEntries.forEach(entry => {
+        container.appendChild(entry.element);
+        if (!entry.intervalId) {
+          this.startEntryMonitoring(entry.uniqueId);
+        }
+      });
+    }
+    
     entries.slice(this.visibleCount).forEach(entry => {
       if (entry.intervalId) {
         clearInterval(entry.intervalId);
