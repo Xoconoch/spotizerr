@@ -381,18 +381,18 @@ body {
     align-items: center;
     text-align: center;
   }
-  
+
   #artist-image {
     width: 180px;
     height: 180px;
     margin-bottom: 1rem;
   }
-  
+
   .track {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .track-album,
   .track-duration {
     margin-left: 0;
@@ -400,17 +400,17 @@ body {
     width: 100%;
     text-align: center;
   }
-  
+
   .albums-list {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
   }
-  
+
   .album-group-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .group-download-btn {
     margin-top: 0.5rem;
   }
@@ -421,28 +421,28 @@ body {
   #app {
     padding: 10px;
   }
-  
+
   #artist-name {
     font-size: 1.75rem;
   }
-  
+
   .track {
     padding: 0.8rem;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   .track-number {
     font-size: 0.9rem;
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
-  
+
   .track-info {
     align-items: center;
   }
-  
+
   .track-album,
   .track-duration {
     margin-left: 0;
@@ -450,20 +450,20 @@ body {
     width: 100%;
     text-align: center;
   }
-  
+
   .albums-list {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 0.75rem;
   }
-  
+
   .album-info {
     padding: 0.5rem;
   }
-  
+
   .album-title {
     font-size: 0.9rem;
   }
-  
+
   .album-artist {
     font-size: 0.8rem;
   }
@@ -564,15 +564,15 @@ a:focus {
   padding: 8px; /* Spacing around the buttons */
   border-top: 1px solid var(--color-surface-darker, #2a2a2a); /* Separator line */
   /* Ensure it takes up full width of the card if not already */
-  width: 100%; 
+  width: 100%;
 }
 
 /* Persistent action button (e.g., toggle known/missing) on album card - BOTTOM-LEFT */
 .persistent-album-action-btn {
   /* position: absolute; */ /* No longer absolute */
-  /* bottom: 8px; */ 
+  /* bottom: 8px; */
   /* left: 8px; */
-  /* z-index: 2; */ 
+  /* z-index: 2; */
   opacity: 1; /* Ensure it is visible */
   /* Specific margin if needed, but flexbox space-between should handle it */
   margin: 0; /* Reset any previous margins */
@@ -597,11 +597,11 @@ a:focus {
 /* NEW STYLES FOR BUTTON STATES */
 .persistent-album-action-btn.status-missing {
   background-color: #d9534f; /* Bootstrap's btn-danger red */
-  border-color: #d43f3a; 
+  border-color: #d43f3a;
 }
 
 .persistent-album-action-btn.status-missing:hover {
-  background-color: #c9302c; 
+  background-color: #c9302c;
   border-color: #ac2925;
 }
 

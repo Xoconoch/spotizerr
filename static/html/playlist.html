@@ -15,14 +15,14 @@
     <div id="playlist-header" class="content-header hidden">
       <!-- Playlist Image -->
       <img id="playlist-image" class="header-image" alt="Playlist cover" onerror="this.src='/static/images/placeholder.jpg'">
-      
+
       <!-- Playlist Info -->
       <div id="playlist-info" class="header-info">
         <h1 id="playlist-name" class="header-title"></h1>
         <p id="playlist-owner" class="header-subtitle"></p>
         <p id="playlist-stats" class="header-subtitle"></p>
         <p id="playlist-description" class="playlist-description"></p>
-        
+
         <!-- Download Buttons -->
         <div class="header-actions">
           <button id="downloadPlaylistBtn" class="download-btn btn-primary">
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    
+
     <div id="tracks-container" class="hidden">
       <h2 class="section-title">Tracks</h2>
       <div id="tracks-list" class="tracks-list"></div>
@@ -64,7 +64,7 @@
   <button id="homeButton" class="btn-icon home-btn floating-icon settings-icon" aria-label="Return to home">
     <img src="{{ url_for('static', filename='images/home.svg') }}" alt="Home">
   </button>
-  
+
   <a id="watchlistButton" href="/watchlist" class="btn-icon watchlist-icon floating-icon hidden" aria-label="Watchlist" title="Go to Watchlist">
     <img src="{{ url_for('static', filename='images/binoculars.svg') }}" alt="Watchlist" onerror="handleImageError(this)"/>
   </a>

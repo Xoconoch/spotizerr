@@ -69,7 +69,7 @@ body {
 #downloadQueue {
   position: fixed;
   top: 0;
-  right: -350px; 
+  right: -350px;
   width: 350px;
   height: 100vh;
   background: #181818;
@@ -185,20 +185,20 @@ body {
     right: -100%;
     padding: 15px;
   }
-  
+
   #downloadQueue.active {
     right: 0;
   }
-  
+
   .sidebar-header {
     padding-bottom: 12px;
     margin-bottom: 15px;
   }
-  
+
   .sidebar-header h2 {
     font-size: 1.1rem;
   }
-  
+
   #cancelAllBtn {
     padding: 6px 10px;
     font-size: 12px;
@@ -695,40 +695,40 @@ input:checked + .slider:before {
   .config-container {
     padding: 1.5rem 1rem;
   }
-  
+
   .config-header {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
-  
+
   /* Increase touch target sizes for buttons and selects */
   .form-select {
     padding: 0.8rem 2rem 0.8rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .service-tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab-button {
     flex: 1 1 auto;
     text-align: center;
     margin-bottom: 0.5rem;
   }
-  
+
   .credential-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
-  
+
   .credential-info {
     width: 100%;
     margin-bottom: 1rem;
   }
-  
+
   .credential-actions {
     width: 100%;
     display: flex;
@@ -736,13 +736,13 @@ input:checked + .slider:before {
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  
+
   /* Adjust toggle switch size for better touch support */
   .switch {
     width: 52px;
     height: 26px;
   }
-  
+
   .slider:before {
     height: 20px;
     width: 20px;
@@ -753,34 +753,34 @@ input:checked + .slider:before {
   .config-container {
     padding: 1rem;
   }
-  
+
   .account-config,
   .credentials-list,
   .credentials-form {
     padding: 1rem;
     border-radius: 8px;
   }
-  
+
   .section-title {
     font-size: 1.3rem;
   }
-  
+
   .config-item label {
     font-size: 0.95rem;
   }
-  
+
   .form-select,
   .form-input {
     padding: 0.7rem 1.8rem 0.7rem 0.8rem;
     font-size: 0.9rem;
   }
-  
+
   .save-btn {
     width: 100%;
     padding: 0.7rem;
     font-size: 0.9rem;
   }
-  
+
   /* Position floating icons a bit closer to the edges on small screens */
   .back-button.floating-icon {
     width: 60px;
@@ -788,7 +788,7 @@ input:checked + .slider:before {
     left: 16px;
     bottom: 16px;
   }
-  
+
   .back-button.floating-icon img {
     width: 28px;
     height: 28px;
@@ -971,8 +971,8 @@ input:checked + .slider:before {
   font-size: 0.95rem;
   cursor: pointer;
   /* Reset some global label styles if they interfere */
-  display: inline; 
-  margin-bottom: 0; 
+  display: inline;
+  margin-bottom: 0;
 }
 
 /* Urgent Warning Message Style */

@@ -130,13 +130,13 @@ function renderAlbum(album: Album) {
         <p>The explicit content filter is controlled by environment variables.</p>
       </div>
     `;
-    
+
     const contentContainer = document.getElementById('album-header');
     if (contentContainer) {
       contentContainer.innerHTML = placeholderContent;
       contentContainer.classList.remove('hidden');
     }
-    
+
     return; // Stop rendering the actual album content
   }
 
@@ -216,7 +216,7 @@ function renderAlbum(album: Album) {
     const albumHeader = document.getElementById('album-header');
     if (albumHeader) albumHeader.appendChild(downloadAlbumBtn); // Null check
   }
-  
+
   if (downloadAlbumBtn) { // Null check for downloadAlbumBtn
     if (isExplicitFilterEnabled && hasExplicitTrack) {
       // Disable the album download button and display a message explaining why
@@ -256,7 +256,7 @@ function renderAlbum(album: Album) {
     if (album.tracks?.items) {
       album.tracks.items.forEach((track, index) => {
         if (!track) return; // Skip null or undefined tracks
-        
+
         // Skip explicit tracks if filter is enabled
         if (isExplicitFilterEnabled && track.explicit) {
           // Add a placeholder for filtered explicit tracks
@@ -273,7 +273,7 @@ function renderAlbum(album: Album) {
           tracksList.appendChild(trackElement);
           return;
         }
-        
+
         const trackElement = document.createElement('div');
         trackElement.className = 'track';
         trackElement.innerHTML = `
@@ -283,13 +283,13 @@ function renderAlbum(album: Album) {
               <a href="${baseUrl}/track/${track.id || ''}">${track.name || 'Unknown Track'}</a>
             </div>
             <div class="track-artist">
-              ${track.artists?.map(a => 
+              ${track.artists?.map(a =>
                 `<a href="${baseUrl}/artist/${a?.id || ''}">${a?.name || 'Unknown Artist'}</a>`
               ).join(', ') || 'Unknown Artist'}
             </div>
           </div>
           <div class="track-duration">${msToTime(track.duration_ms || 0)}</div>
-          <button class="download-btn download-btn--circle" 
+          <button class="download-btn download-btn--circle"
                   data-id="${track.id || ''}"
                   data-type="track"
                   data-name="${track.name || 'Unknown Track'}"
@@ -305,7 +305,7 @@ function renderAlbum(album: Album) {
   // Reveal header and track list.
   const albumHeaderEl = document.getElementById('album-header');
   if (albumHeaderEl) albumHeaderEl.classList.remove('hidden');
-  
+
   const tracksContainerEl = document.getElementById('tracks-container');
   if (tracksContainerEl) tracksContainerEl.classList.remove('hidden');
   attachDownloadListeners();
@@ -326,7 +326,7 @@ function renderAlbum(album: Album) {
 
         const dlAlbumBtn = document.getElementById('downloadAlbumBtn');
         if (dlAlbumBtn) actionsContainer.appendChild(dlAlbumBtn); // Null check
-        
+
         const queueToggle = document.querySelector('.queue-toggle');
         if (queueToggle) {
           actionsContainer.appendChild(queueToggle);
@@ -340,7 +340,7 @@ async function downloadWholeAlbum(album: Album) {
   if (!albumIdToDownload) {
     throw new Error('Missing album ID');
   }
-  
+
   try {
     // Use the centralized downloadQueue.download method
     await downloadQueue.download(albumIdToDownload, 'album', { name: album.name || 'Unknown Album' });
@@ -378,7 +378,7 @@ function attachDownloadListeners() {
       const itemId = currentTarget.dataset.id || '';
       const type = currentTarget.dataset.type || '';
       const name = currentTarget.dataset.name || 'Unknown';
-      
+
       if (!itemId) {
         showError('Missing item ID for download in album page');
         return;
@@ -395,11 +395,11 @@ async function startDownload(itemId: string, type: string, item: { name: string 
     showError('Missing ID or type for download');
     return Promise.reject(new Error('Missing ID or type for download')); // Return a rejected promise
   }
-  
+
   try {
     // Use the centralized downloadQueue.download method
     await downloadQueue.download(itemId, type, item, albumType);
-    
+
     // Make the queue visible after queueing
     downloadQueue.toggleVisibility(true);
   } catch (error: any) { // Add type for error

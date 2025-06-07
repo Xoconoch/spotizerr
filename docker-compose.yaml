@@ -34,7 +34,7 @@ services:
     volumes:
       - redis-data:/data
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
-    
+
 volumes:
   redis-data:
     driver: local

@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
                  qualityDisplay = `${entry.bitrate}k (${entry.quality_profile || 'Profile'})`;
             }
             row.insertCell().textContent = qualityDisplay;
-            
+
             const statusCell = row.insertCell();
             statusCell.textContent = entry.status_final || 'N/A';
             statusCell.className = `status-${entry.status_final}`;
 
             row.insertCell().textContent = entry.timestamp_added ? new Date(entry.timestamp_added * 1000).toLocaleString() : 'N/A';
             row.insertCell().textContent = entry.timestamp_completed ? new Date(entry.timestamp_completed * 1000).toLocaleString() : 'N/A';
-            
+
             const detailsCell = row.insertCell();
             const detailsButton = document.createElement('button');
             detailsButton.innerHTML = `<img src="/static/images/info.svg" alt="Details">`;
@@ -185,4 +185,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial fetch
     fetchHistory();
-}); 
+});

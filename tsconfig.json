@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2017",                       // Specify ECMAScript target version
-    "module": "ES2020",                  // Specify module code generation
-    "strict": true,                        // Enable all strict type-checking options
-    "esModuleInterop": true,               // Enables emit interoperability between CommonJS and ES Modules
-    "skipLibCheck": true,                  // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "target": "ES2017",
+    "module": "ES2020",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./static/js",
     "rootDir": "./src/js"
   },
@@ -20,6 +20,6 @@
     "src/js/track.ts"
   ],
   "exclude": [
-    "node_modules"                     // Specifies an array of filenames or patterns that should be skipped when resolving include.
+    "node_modules"
   ]
-} 
+}

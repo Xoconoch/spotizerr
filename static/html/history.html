@@ -20,7 +20,7 @@
 <body>
     <div class="container">
         <h1>Download History</h1>
-        
+
         <div class="filters">
             <label for="status-filter">Status:</label>
             <select id="status-filter">
@@ -75,11 +75,11 @@
     <a href="/" class="btn-icon home-btn floating-icon" aria-label="Return to home" title="Go to Home">
         <img src="{{ url_for('static', filename='images/home.svg') }}" alt="Home" onerror="handleImageError(this)"/>
     </a>
-    
+
     <!-- Link to the new TypeScript file (compiled to JS) -->
     <script type="module" src="{{ url_for('static', filename='js/history.js') }}"></script>
     <!-- Queue icon, assuming queue.js handles its own initialization if included -->
     <!-- You might want to include queue.js here if the queue icon is desired on this page -->
     <!-- <script type="module" src="{{ url_for('static', filename='js/queue.js') }}"></script> -->
 </body>
-</html> 
+</html>

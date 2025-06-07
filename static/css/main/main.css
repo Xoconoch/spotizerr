@@ -101,7 +101,7 @@ body {
   min-width: 100px;
 }
 
-.search-type:hover, 
+.search-type:hover,
 .search-type:focus {
   background: var(--color-surface-hover);
 }
@@ -270,22 +270,22 @@ body {
     padding: 15px 0;
     gap: 12px;
   }
-  
+
   .search-input-container {
     flex: 1 1 100%;
     order: 1;
   }
-  
+
   .search-button {
     order: 2;
     flex: 1;
   }
-  
+
   .results-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 15px;
   }
-  
+
   /* Smaller download button for mobile */
   .download-btn {
     padding: 0.5rem 0.8rem;
@@ -297,29 +297,29 @@ body {
   .search-header {
     padding: 10px 0;
   }
-  
+
   .search-type {
     min-width: 80px;
     padding: 12px 10px;
   }
-  
+
   .search-button {
     padding: 12px 15px;
   }
-  
+
   .results-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
   }
-  
+
   .track-title, .track-artist {
     font-size: 0.9rem;
   }
-  
+
   .track-details {
     font-size: 0.8rem;
   }
-  
+
   /* Even smaller download button for very small screens */
   .download-btn {
     padding: 0.4rem 0.7rem;
@@ -327,11 +327,11 @@ body {
     margin: 0 0.8rem 0.8rem;
     max-width: calc(100% - 1.6rem);
   }
-  
+
   .empty-state h2 {
     font-size: 1.5rem;
   }
-  
+
   .empty-state p {
     font-size: 0.9rem;
   }

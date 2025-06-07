@@ -266,7 +266,7 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
       downloadPlaylistBtn.classList.add('download-btn--disabled');
       downloadPlaylistBtn.innerHTML = `<span title="Cannot download entire playlist because it contains explicit tracks">Playlist Contains Explicit Tracks</span>`;
     }
-    
+
     if (downloadAlbumsBtn) {
       downloadAlbumsBtn.disabled = true;
       downloadAlbumsBtn.classList.add('download-btn--disabled');
@@ -322,23 +322,23 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
   // Render tracks list
   const tracksList = document.getElementById('tracks-list');
   if (!tracksList) return;
-  
+
   tracksList.innerHTML = ''; // Clear any existing content
 
   // Determine if the playlist is being watched to show/hide management buttons
   const watchPlaylistButton = document.getElementById('watchPlaylistBtn') as HTMLButtonElement;
   // isIndividuallyWatched checks if the button is visible and has the 'watching' class.
   // This implies global watch is enabled if the button is even interactable for individual status.
-  const isIndividuallyWatched = watchPlaylistButton && 
-                                watchPlaylistButton.classList.contains('watching') && 
+  const isIndividuallyWatched = watchPlaylistButton &&
+                                watchPlaylistButton.classList.contains('watching') &&
                                 !watchPlaylistButton.classList.contains('hidden');
 
   if (playlist.tracks?.items) {
     playlist.tracks.items.forEach((item: PlaylistItem, index: number) => {
       if (!item || !item.track) return; // Skip null/undefined tracks
-      
+
       const track = item.track;
-      
+
       // Skip explicit tracks if filter is enabled
       if (isExplicitFilterEnabled && track.explicit) {
         // Add a placeholder for filtered explicit tracks
@@ -356,7 +356,7 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
         tracksList.appendChild(trackElement);
         return;
       }
-      
+
       const trackLink = `/track/${track.id || ''}`;
       const artistLink = `/artist/${track.artists?.[0]?.id || ''}`;
       const albumLink = `/album/${track.album?.id || ''}`;
@@ -378,13 +378,13 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
         </div>
         <div class="track-duration">${msToTime(track.duration_ms || 0)}</div>
       `;
-      
+
       const actionsContainer = document.createElement('div');
       actionsContainer.className = 'track-actions-container';
 
       if (!(isExplicitFilterEnabled && hasExplicitTrack)) {
         const downloadBtnHTML = `
-          <button class="download-btn download-btn--circle track-download-btn" 
+          <button class="download-btn download-btn--circle track-download-btn"
                   data-id="${track.id || ''}"
                   data-type="track"
                   data-name="${track.name || 'Unknown Track'}"
@@ -403,17 +403,17 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
         const initialTitle = isKnown ? "Click to mark as missing from DB" : "Click to mark as known in DB";
 
         const toggleKnownBtnHTML = `
-          <button class="action-btn toggle-known-status-btn" 
+          <button class="action-btn toggle-known-status-btn"
                   data-id="${track.id || ''}"
-                  data-playlist-id="${playlist.id || ''}" 
-                  data-status="${initialStatus}" 
+                  data-playlist-id="${playlist.id || ''}"
+                  data-status="${initialStatus}"
                   title="${initialTitle}">
             <img src="${initialIcon}" alt="Mark as Missing/Known">
           </button>
         `;
         actionsContainer.innerHTML += toggleKnownBtnHTML;
       }
-      
+
       trackElement.innerHTML = trackHTML;
       trackElement.appendChild(actionsContainer);
       tracksList.appendChild(trackElement);
@@ -435,7 +435,7 @@ function renderPlaylist(playlist: Playlist, isGlobalWatchEnabled: boolean) {
  */
 function msToTime(duration: number) {
   if (!duration || isNaN(duration)) return '0:00';
-  
+
   const minutes = Math.floor(duration / 60000);
   const seconds = ((duration % 60000) / 1000).toFixed(0);
   return `${minutes}:${seconds.padStart(2, '0')}`;
@@ -506,7 +506,7 @@ function attachTrackActionListeners(isGlobalWatchEnabled: boolean) {
         }
       } catch (error) {
         // Revert UI on error if needed, error is shown by handlers
-        showError('Failed to update track status. Please try again.'); 
+        showError('Failed to update track status. Please try again.');
       }
       button.disabled = false;
     });
@@ -562,15 +562,15 @@ async function downloadWholePlaylist(playlist: Playlist) {
   if (!playlist) {
     throw new Error('Invalid playlist data');
   }
-  
+
   const playlistId = playlist.id || '';
   if (!playlistId) {
     throw new Error('Missing playlist ID');
   }
-  
+
   try {
     // Use the centralized downloadQueue.download method
-    await downloadQueue.download(playlistId, 'playlist', { 
+    await downloadQueue.download(playlistId, 'playlist', {
         name: playlist.name || 'Unknown Playlist',
         owner: playlist.owner?.display_name // Pass owner as a string
         // total_tracks can also be passed if QueueItem supports it directly
@@ -593,12 +593,12 @@ async function downloadPlaylistAlbums(playlist: Playlist) {
     showError('No tracks found in this playlist.');
     return;
   }
-  
+
   // Build a map of unique albums (using album ID as the key).
   const albumMap = new Map<string, Album>();
   playlist.tracks.items.forEach((item: PlaylistItem) => {
     if (!item?.track?.album) return;
-    
+
     const album = item.track.album;
     if (album && album.id) {
       albumMap.set(album.id, album);
@@ -624,18 +624,18 @@ async function downloadPlaylistAlbums(playlist: Playlist) {
     for (let i = 0; i < totalAlbums; i++) {
       const album = uniqueAlbums[i];
       if (!album) continue;
-      
+
       const albumUrl = album.external_urls?.spotify || '';
       if (!albumUrl) continue;
-      
+
       // Use the centralized downloadQueue.download method
       await downloadQueue.download(
         album.id, // Pass album ID directly
         'album',
-        { 
+        {
             name: album.name || 'Unknown Album',
             // If artist information is available on album objects from playlist, pass it
-            // artist: album.artists?.[0]?.name 
+            // artist: album.artists?.[0]?.name
         }
       );
 
@@ -652,7 +652,7 @@ async function downloadPlaylistAlbums(playlist: Playlist) {
     if (downloadAlbumsBtn) {
       downloadAlbumsBtn.textContent = 'Queued!';
     }
-    
+
     // Make the queue visible after queueing all albums
     downloadQueue.toggleVisibility(true);
   } catch (error: any) {
@@ -669,11 +669,11 @@ async function startDownload(itemId: string, type: string, item: DownloadQueueIt
     showError('Missing ID or type for download');
     return;
   }
-  
+
   try {
     // Use the centralized downloadQueue.download method
     await downloadQueue.download(itemId, type, item, albumType);
-    
+
     // Make the queue visible after queueing
     downloadQueue.toggleVisibility(true);
   } catch (error: any) {
@@ -706,7 +706,7 @@ async function fetchWatchStatus(playlistId: string) {
     console.error('Error fetching watch status:', error);
     // Don't show a blocking error, but maybe a small notification or log
     // For now, assume not watched if status fetch fails, or keep buttons in default state
-    updateWatchButtons(false, playlistId); 
+    updateWatchButtons(false, playlistId);
   }
 }
 

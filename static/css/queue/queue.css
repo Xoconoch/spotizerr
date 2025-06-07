@@ -15,7 +15,7 @@
     z-index: 1001;
     /* Remove overflow-y here to delegate scrolling to the queue items container */
     box-shadow: -20px 0 30px rgba(0, 0, 0, 0.4);
-    
+
     /* Added for flex layout */
     display: flex;
     flex-direction: column;
@@ -287,7 +287,7 @@
 }
 
 /* Optional state indicators for each queue item */
-.queue-item--complete, 
+.queue-item--complete,
 .queue-item.download-success {
     border-left-color: #1DB954;
 }
@@ -689,7 +689,7 @@
         right: -100%;  /* Off-screen fully */
         padding: 15px;
     }
-    
+
     /* When active, the sidebar slides into view from full width */
     #downloadQueue.active {
         right: 0;
@@ -702,44 +702,44 @@
         padding-bottom: 12px;
         margin-bottom: 15px;
     }
-    
+
     .sidebar-header h2 {
         font-size: 1.1rem;
     }
-    
+
     /* Reduce the size of the close buttons */
     .close-btn {
         width: 28px;
         height: 28px;
         font-size: 18px;
     }
-    
+
     /* Adjust queue items padding */
     .queue-item {
         padding: 12px;
         margin-bottom: 12px;
     }
-    
+
     /* Ensure text remains legible on smaller screens */
     .queue-item .log,
     .queue-item .type {
         font-size: 12px;
     }
-    
+
     #cancelAllBtn {
         padding: 6px 10px;
         font-size: 12px;
     }
-    
+
     .error-buttons {
         flex-direction: row;
     }
-    
+
     .close-error-btn {
         width: 28px;
         height: 28px;
     }
-    
+
     .retry-btn {
         padding: 6px 12px !important;
     }

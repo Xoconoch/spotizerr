@@ -1,0 +1,41 @@
+repos:
+    # Various general + format-specific helpers
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: check-symlinks
+          - id: trailing-whitespace
+          - id: mixed-line-ending
+            args: [--fix=lf]
+          - id: check-yaml
+            exclude: 'mkdocs.yml'
+          - id: check-toml
+          - id: check-json
+          - id: check-ast
+          - id: debug-statements
+          - id: check-merge-conflict
+          - id: check-shebang-scripts-are-executable
+          - id: check-added-large-files
+            args: [--maxkb=10000]
+    - repo: https://github.com/python-jsonschema/check-jsonschema
+      rev: '0.33.0'
+      hooks:
+          - id: check-github-workflows
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      # Ruff version.
+      rev: v0.11.13
+      hooks:
+          # Run the linter.
+          - id: ruff
+            types_or: [python, pyi, jupyter]
+            args: [--fix]
+          # Run the formatter.
+          - id: ruff-format
+            types_or: [python, pyi, jupyter]
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: 'v1.16.0'
+      hooks:
+          - id: mypy
+            args: [--no-strict-optional, --ignore-missing-imports]
+            # NOTE: you might need to add some deps here:
+            additional_dependencies: [waitress==3.0.2, types-waitress]

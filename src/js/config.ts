@@ -21,7 +21,7 @@ const serviceConfig: Record<string, any> = {
       { id: 'accountRegion', label: 'Region (ISO 3166-1 alpha-2)', type: 'text', placeholder: 'E.g., US, DE, GB (Optional)'},
       { id: 'authBlob', label: 'Auth Blob (JSON content)', type: 'textarea', rows: 5 }
     ],
-    validator: (data: SpotifyFormData) => ({ 
+    validator: (data: SpotifyFormData) => ({
       name: data.accountName,
       region: data.accountRegion || null, // Send null if empty, backend might have default
       blob_content: data.authBlob
@@ -33,7 +33,7 @@ const serviceConfig: Record<string, any> = {
       { id: 'accountRegion', label: 'Region (ISO 3166-1 alpha-2)', type: 'text', placeholder: 'E.g., US, DE, FR (Optional)'},
       { id: 'arl', label: 'ARL Token', type: 'text' }
     ],
-    validator: (data: DeezerFormData) => ({ 
+    validator: (data: DeezerFormData) => ({
       name: data.accountName,
       region: data.accountRegion || null, // Send null if empty
       arl: data.arl
@@ -95,7 +95,7 @@ async function loadConfig() {
     // Set default service selection
     const defaultServiceSelect = document.getElementById('defaultServiceSelect') as HTMLSelectElement | null;
     if (defaultServiceSelect) defaultServiceSelect.value = savedConfig.service || 'spotify';
-    
+
     // Update the service-specific options based on selected service
     updateServiceSpecificOptions();
 
@@ -137,7 +137,7 @@ async function loadConfig() {
     if (tracknumPaddingToggle) tracknumPaddingToggle.checked = savedConfig.tracknum_padding === undefined ? true : !!savedConfig.tracknum_padding;
     const saveCoverToggle = document.getElementById('saveCoverToggle') as HTMLInputElement | null;
     if (saveCoverToggle) saveCoverToggle.checked = savedConfig.save_cover === undefined ? true : !!savedConfig.save_cover;
-    
+
     // Load conversion settings
     const convertToSelect = document.getElementById('convertToSelect') as HTMLSelectElement | null;
     if (convertToSelect) {
@@ -151,7 +151,7 @@ async function loadConfig() {
       }
     } else if (bitrateSelect) {
         if (convertToSelect && !CONVERSION_FORMATS[convertToSelect.value]?.length) {
-            bitrateSelect.value = ''; 
+            bitrateSelect.value = '';
         }
     }
 
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (credentialsFormCard && showAddAccountFormBtn) {
       // Initially hide form, show add button (default state handled by setFormVisibility if called)
-      credentialsFormCard.style.display = 'none'; 
+      credentialsFormCard.style.display = 'none';
       showAddAccountFormBtn.style.display = 'flex'; // Assuming styled button uses flex
     }
 
@@ -289,7 +289,7 @@ function setupEventListeners() {
   // Conversion settings listeners
   (document.getElementById('convertToSelect') as HTMLSelectElement | null)?.addEventListener('change', function() {
     updateBitrateOptions(this.value);
-    saveConfig(); 
+    saveConfig();
   });
   (document.getElementById('bitrateSelect') as HTMLSelectElement | null)?.addEventListener('change', saveConfig);
 
@@ -306,7 +306,7 @@ function setupEventListeners() {
   // Formatting settings
   (document.getElementById('customDirFormat') as HTMLInputElement | null)?.addEventListener('change', saveConfig);
   (document.getElementById('customTrackFormat') as HTMLInputElement | null)?.addEventListener('change', saveConfig);
-  
+
   // Copy to clipboard when selecting placeholders
   (document.getElementById('dirFormatHelp') as HTMLSelectElement | null)?.addEventListener('change', function() {
     copyPlaceholderToClipboard(this as HTMLSelectElement);
@@ -458,7 +458,7 @@ async function loadCredentials(service: string) {
     if (!response.ok) {
       throw new Error(`Failed to load credentials: ${response.statusText}`);
     }
-    
+
     const credentials = await response.json();
     renderCredentialsList(service, credentials);
   } catch (error: any) {
@@ -479,7 +479,7 @@ function renderCredentialsList(service: string, credentials: any[]) {
   credentials.forEach(credData => {
     const credItem = document.createElement('div');
     credItem.className = 'credential-item';
-    
+
     credItem.innerHTML = `
       <div class="credential-info">
         <span class="credential-name">${credData.name}</span>
@@ -489,7 +489,7 @@ function renderCredentialsList(service: string, credentials: any[]) {
         <button class="delete-btn" data-name="${credData.name}" data-service="${service}">Delete</button>
       </div>
     `;
-    
+
     list.appendChild(credItem);
   });
 
@@ -556,13 +556,13 @@ async function handleEditCredential(e: MouseEvent) {
     (document.querySelector(`[data-service="${service}"]`) as HTMLElement | null)?.click();
     await new Promise(resolve => setTimeout(resolve, 50));
 
-    setFormVisibility(true); 
+    setFormVisibility(true);
 
     const response = await fetch(`/api/credentials/${service}/${name}`);
     if (!response.ok) {
       throw new Error(`Failed to load credential: ${response.statusText}`);
     }
-    
+
     const data = await response.json(); // data = {name, region, blob_content/arl}
 
     currentCredential = name ? name : null; // Set the global currentCredential to the one being edited
@@ -591,7 +591,7 @@ async function handleEditCredential(e: MouseEvent) {
 
     (document.getElementById('formTitle') as HTMLElement | null)!.textContent = `Edit ${service!.charAt(0).toUpperCase() + service!.slice(1)} Account`;
     (document.getElementById('submitCredentialBtn') as HTMLElement | null)!.textContent = 'Update Account';
-    
+
     toggleSearchFieldsVisibility(false); // Ensure old per-account search fields are hidden
   } catch (error: any) {
     showConfigError(error.message);
@@ -618,11 +618,11 @@ async function handleEditSearchCredential(e: Event) {
 function toggleSearchFieldsVisibility(showSearchFields: boolean) {
   const serviceFieldsDiv = document.getElementById('serviceFields') as HTMLElement | null;
   const searchFieldsDiv = document.getElementById('searchFields') as HTMLElement | null; // This div might be removed from HTML if not used by other services
-  
+
   // Simplified: Always show serviceFields, always hide (old) searchFields in this form context.
   // The new global Spotify API fields are in a separate card and handled by different functions.
   if(serviceFieldsDiv) serviceFieldsDiv.style.display = 'block';
-  if(searchFieldsDiv) searchFieldsDiv.style.display = 'none'; 
+  if(searchFieldsDiv) searchFieldsDiv.style.display = 'none';
 
   // Ensure required attributes are set correctly for visible service fields
   if (serviceConfig[currentService] && serviceConfig[currentService].fields) {
@@ -644,31 +644,31 @@ function toggleSearchFieldsVisibility(showSearchFields: boolean) {
 
 function updateFormFields() {
   const serviceFieldsDiv = document.getElementById('serviceFields') as HTMLElement | null;
-  
+
   if(serviceFieldsDiv) serviceFieldsDiv.innerHTML = '';
 
   if (serviceConfig[currentService] && serviceConfig[currentService].fields) {
     serviceConfig[currentService].fields.forEach((field: { id: string; label: string; type: string; placeholder?: string; rows?: number; }) => {
       const fieldDiv = document.createElement('div');
       fieldDiv.className = 'form-group';
-      
+
       let inputElementHTML = '';
       if (field.type === 'textarea') {
-        inputElementHTML = `<textarea 
-          id="${field.id}" 
-          name="${field.id}" 
-          rows="${field.rows || 3}" 
-          class="form-input" 
-          placeholder="${field.placeholder || ''}" 
+        inputElementHTML = `<textarea
+          id="${field.id}"
+          name="${field.id}"
+          rows="${field.rows || 3}"
+          class="form-input"
+          placeholder="${field.placeholder || ''}"
           required></textarea>`;
       } else {
-        inputElementHTML = `<input 
-          type="${field.type}" 
-          id="${field.id}" 
-          name="${field.id}" 
-          class="form-input" 
-          placeholder="${field.placeholder || ''}" 
-          ${field.type === 'password' ? 'autocomplete="new-password"' : ''} 
+        inputElementHTML = `<input
+          type="${field.type}"
+          id="${field.id}"
+          name="${field.id}"
+          class="form-input"
+          placeholder="${field.placeholder || ''}"
+          ${field.type === 'password' ? 'autocomplete="new-password"' : ''}
           required>`;
       }
       // Region field is optional, so remove 'required' if id is 'accountRegion'
@@ -686,9 +686,9 @@ function updateFormFields() {
 
   (document.getElementById('formTitle') as HTMLElement | null)!.textContent = `Add New ${currentService.charAt(0).toUpperCase() + currentService.slice(1)} Account`;
   (document.getElementById('submitCredentialBtn') as HTMLElement | null)!.textContent = 'Save Account';
-  
-  toggleSearchFieldsVisibility(false); 
-  isEditingSearch = false; 
+
+  toggleSearchFieldsVisibility(false);
+  isEditingSearch = false;
 
   // Show/hide region hints based on current service
   if (spotifyRegionHint && deezerRegionHint) {
@@ -716,7 +716,7 @@ function populateFormFields(service: string, data: Record<string, string>) {
 async function handleCredentialSubmit(e: Event) {
   e.preventDefault();
   const service = (document.querySelector('.tab-button.active') as HTMLElement | null)?.dataset.service;
-  
+
   // Get the account name from the 'accountName' field within the dynamically generated serviceFields
   const accountNameInput = document.getElementById('accountName') as HTMLInputElement | null;
   const accountNameValue = accountNameInput?.value.trim();
@@ -745,7 +745,7 @@ async function handleCredentialSubmit(e: Event) {
     const formData: Record<string, string> = {};
     let isValid = true;
     let firstInvalidField: HTMLInputElement | HTMLTextAreaElement | null = null;
-    
+
     const currentServiceFields = serviceConfig[service!]?.fields as Array<{id: string, label: string, type: string}> | undefined;
 
     if (currentServiceFields) {
@@ -753,7 +753,7 @@ async function handleCredentialSubmit(e: Event) {
           const input = document.getElementById(field.id) as HTMLInputElement | HTMLTextAreaElement | null;
           const value = input ? input.value.trim() : '';
           formData[field.id] = value;
-          
+
           const isRequired = input?.hasAttribute('required');
           if (isRequired && !value) {
             isValid = false;
@@ -763,7 +763,7 @@ async function handleCredentialSubmit(e: Event) {
     } else {
         throw new Error(`No fields configured for service: ${service}`);
     }
-    
+
     if (!isValid) {
       if (firstInvalidField) {
         const nonNullInvalidField = firstInvalidField as HTMLInputElement | HTMLTextAreaElement;
@@ -776,8 +776,8 @@ async function handleCredentialSubmit(e: Event) {
     }
 
     // The validator in serviceConfig now expects fields like 'accountName', 'accountRegion', etc.
-    data = serviceConfig[service!].validator(formData); 
-    
+    data = serviceConfig[service!].validator(formData);
+
     // If it's a new credential and the validator didn't explicitly set 'name' from 'accountName',
     // (though it should: serviceConfig.spotify.validator expects data.accountName and sets 'name')
     // we ensure the 'name' in the payload matches accountNameValue if it's a new POST.
@@ -800,13 +800,13 @@ async function handleCredentialSubmit(e: Event) {
     }
 
     await updateAccountSelectors();
-    loadCredentials(service!); 
-    
+    loadCredentials(service!);
+
     showConfigSuccess('Account saved successfully');
-    
+
     setTimeout(() => {
-      setFormVisibility(false); 
-    }, 2000); 
+      setFormVisibility(false);
+    }, 2000);
   } catch (error: any) {
     showConfigError(error.message);
   }
@@ -823,17 +823,17 @@ function resetForm() {
   if (accountNameInput) {
     accountNameInput.disabled = false;
   }
-  
+
   const convertToSelect = document.getElementById('convertToSelect') as HTMLSelectElement | null;
   if (convertToSelect) {
-      convertToSelect.value = ''; 
-      updateBitrateOptions(''); 
+      convertToSelect.value = '';
+      updateBitrateOptions('');
   }
 
   const serviceName = currentService.charAt(0).toUpperCase() + currentService.slice(1);
   (document.getElementById('formTitle') as HTMLElement | null)!.textContent = `Add New ${serviceName} Account`;
   (document.getElementById('submitCredentialBtn') as HTMLElement | null)!.textContent = 'Save Account';
-  
+
   toggleSearchFieldsVisibility(false);
 }
 
@@ -876,7 +876,7 @@ async function saveConfig() {
     // Set default service selection
     const defaultServiceSelect = document.getElementById('defaultServiceSelect') as HTMLSelectElement | null;
     if (defaultServiceSelect) defaultServiceSelect.value = savedConfig.service || 'spotify';
-    
+
     // Update the service-specific options based on selected service
     updateServiceSpecificOptions();
 
@@ -916,7 +916,7 @@ async function saveConfig() {
     if (tracknumPaddingToggle) tracknumPaddingToggle.checked = savedConfig.tracknum_padding === undefined ? true : !!savedConfig.tracknum_padding;
     const saveCoverToggle = document.getElementById('saveCoverToggle') as HTMLInputElement | null;
     if (saveCoverToggle) saveCoverToggle.checked = savedConfig.save_cover === undefined ? true : !!savedConfig.save_cover;
-    
+
     // Load conversion settings after save
     const convertToSelect = document.getElementById('convertToSelect') as HTMLSelectElement | null;
     if (convertToSelect) {
@@ -930,7 +930,7 @@ async function saveConfig() {
       }
     } else if (bitrateSelect) {
         if (convertToSelect && !CONVERSION_FORMATS[convertToSelect.value]?.length) {
-            bitrateSelect.value = ''; 
+            bitrateSelect.value = '';
         }
     }
 
@@ -949,7 +949,7 @@ function updateExplicitFilterStatus(isEnabled: boolean) {
   if (statusElement) {
     // Remove existing classes
     statusElement.classList.remove('enabled', 'disabled');
-    
+
     // Add appropriate class and text based on whether filter is enabled
     if (isEnabled) {
       statusElement.textContent = 'Enabled';
@@ -976,15 +976,15 @@ function showConfigSuccess(message: string) {
 // Function to copy the selected placeholder to clipboard
 function copyPlaceholderToClipboard(select: HTMLSelectElement) {
   const placeholder = select.value;
-  
+
   if (!placeholder) return; // If nothing selected
-  
+
   // Copy to clipboard
   navigator.clipboard.writeText(placeholder)
     .then(() => {
       // Show success notification
       showCopyNotification(`Copied ${placeholder} to clipboard`);
-      
+
       // Reset select to default after a short delay
       setTimeout(() => {
         select.selectedIndex = 0;
@@ -1004,20 +1004,20 @@ function showCopyNotification(message: string) {
     notificationContainer.id = 'copyNotificationContainer';
     document.body.appendChild(notificationContainer);
   }
-  
+
   // Create notification element
   const notification = document.createElement('div');
   notification.className = 'copy-notification';
   notification.textContent = message;
-  
+
   // Add to container
   notificationContainer.appendChild(notification);
-  
+
   // Trigger animation
   setTimeout(() => {
     notification.classList.add('show');
   }, 10);
-  
+
   // Remove after animation completes
   setTimeout(() => {
     notification.classList.remove('show');

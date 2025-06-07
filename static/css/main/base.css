@@ -16,12 +16,12 @@
   --color-surface: #1c1c1c;
   --color-surface-hover: #2a2a2a;
   --color-border: #2a2a2a;
-  
+
   /* Text colors */
   --color-text-primary: #ffffff;
   --color-text-secondary: #b3b3b3;
   --color-text-tertiary: #757575;
-  
+
   /* Brand colors */
   --color-primary: #1db954;
   --color-primary-hover: #17a44b;
@@ -30,19 +30,19 @@
   /* Adding accent green if not present, or ensuring it is */
   --color-accent-green: #22c55e; /* Example: A Tailwind-like green */
   --color-accent-green-dark: #16a34a; /* Darker shade for hover */
-  
+
   /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
-  
+
   /* Shadow */
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
   --shadow-lg: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  
+
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -383,16 +383,16 @@ a:hover, a:focus {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .header-image {
     width: 150px;
     height: 150px;
   }
-  
+
   .header-title {
     font-size: 1.75rem;
   }
-  
+
   .track-item {
     grid-template-columns: 30px 1fr auto;
   }
@@ -402,46 +402,46 @@ a:hover, a:focus {
   .app-container {
     padding: var(--space-md);
   }
-  
+
   .header-image {
     width: 120px;
     height: 120px;
   }
-  
+
   .header-title {
     font-size: 1.5rem;
   }
-  
+
   .header-subtitle {
     font-size: 0.9rem;
   }
-  
+
   .header-actions {
     flex-direction: column;
     width: 100%;
   }
-  
+
   .download-btn {
     width: 100%;
   }
-  
+
   /* Adjust floating icons size for very small screens */
   .floating-icon {
     width: 60px;
     height: 60px;
   }
-  
+
   .floating-icon img {
     width: 28px;
     height: 28px;
   }
-  
+
   /* Position floating icons a bit closer to the edges on small screens */
   .settings-icon {
     left: 16px;
     bottom: 16px;
   }
-  
+
   .queue-icon {
     right: 16px;
     bottom: 16px;
@@ -527,4 +527,4 @@ a:hover, a:focus {
   width: 20px;
   height: 20px;
   filter: brightness(0) invert(1);
-} 
+}

@@ -298,7 +298,7 @@ body {
 /* Ensure the main watchedItemsContainer still behaves like a grid if there are few items */
 #watchedItemsContainer:not(:has(.watched-items-group)) {
   display: grid;
-  /* Assuming results-grid styles are already defined elsewhere, 
+  /* Assuming results-grid styles are already defined elsewhere,
      or copy relevant grid styles here if needed */
 }
 
@@ -308,9 +308,9 @@ body {
   bottom: 20px;
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Adjust for exact centering */
-  z-index: 2000; 
+  z-index: 2000;
   display: flex;
-  flex-direction: column-reverse; 
+  flex-direction: column-reverse;
   gap: 10px;
   width: auto; /* Allow width to be determined by content */
   max-width: 90%; /* Prevent it from being too wide on large screens */
@@ -356,4 +356,4 @@ body {
 
 .spin-counter-clockwise {
   animation: spin-counter-clockwise 1s linear infinite;
-} 
+}

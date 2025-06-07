@@ -33,7 +33,7 @@ Music downloader which combines the best of two worlds: Spotify's catalog and De
 
 *It will first try to download each track from Deezer and only if it fails, will grab it from Spotify
 **Only for spotify. For each track, it matches its length with the time it takes to download it
-***Restrictions per account tier apply (see 
+***Restrictions per account tier apply (see
 
 ## Prerequisites
 
@@ -120,7 +120,7 @@ Copy that value and paste it into the correspondant setting in Spotizerr
 - **Multiple Accounts**:
   - Manage credentials in settings
   - Switch active accounts per service
-    
+
 - **Quality selector**
    - For spotify: OGG 96k, 160k and 320k (premium only)
    - For deezer: MP3 128k, MP3 320k (sometimes premium, it varies) and FLAC (premium only)
@@ -132,7 +132,7 @@ Copy that value and paste it into the correspondant setting in Spotizerr
 - **Watching artits/playlists**
    - Start watching a spotify playlist and its tracks will be downloaded dynamically as it updates.
    - Start watching a spotify artist and their albums will be automatically downloaded, never miss a release!
-   
+
 ## Troubleshooting
 
 **Common Issues**:

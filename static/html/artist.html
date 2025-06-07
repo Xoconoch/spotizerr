@@ -16,12 +16,12 @@
     <div id="artist-header" class="content-header hidden">
       <!-- Artist Image -->
       <img id="artist-image" class="header-image" alt="Artist image" onerror="this.src='/static/images/placeholder.jpg'">
-      
+
       <!-- Artist Info -->
       <div id="artist-info" class="header-info">
         <h1 id="artist-name" class="header-title"></h1>
         <p id="artist-stats" class="header-subtitle"></p>
-        
+
         <!-- Download Button -->
         <div class="header-actions">
           <button id="downloadArtistBtn" class="download-btn btn-primary">
@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Albums container -->
     <div id="albums-container" class="hidden">
       <!-- This container will hold one section per album type -->
@@ -57,7 +57,7 @@
   <button id="homeButton" class="btn-icon home-btn floating-icon settings-icon" aria-label="Return to home">
     <img src="{{ url_for('static', filename='images/home.svg') }}" alt="Home">
   </button>
-  
+
   <a id="watchlistButton" href="/watchlist" class="btn-icon watchlist-icon floating-icon hidden" aria-label="Watchlist" title="Go to Watchlist">
     <img src="{{ url_for('static', filename='images/binoculars.svg') }}" alt="Watchlist" onerror="handleImageError(this)"/>
   </a>

@@ -297,7 +297,7 @@ body {
     grid-template-columns: 30px 1fr auto auto;
     padding: 0.6rem 0.8rem;
   }
-  
+
   .track-duration {
     margin-right: 0.5rem;
   }
@@ -333,15 +333,15 @@ body {
   .track {
     grid-template-columns: 30px 1fr auto;
   }
-  
+
   .track-info {
     padding: 0 0.5rem;
   }
-  
+
   .track-name, .track-artist {
     max-width: 200px;
   }
-  
+
   .section-title {
     font-size: 1.25rem;
   }

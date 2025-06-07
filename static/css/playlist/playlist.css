@@ -291,18 +291,18 @@ body {
     align-items: center;
     text-align: center;
   }
-  
+
   #playlist-image {
     width: 180px;
     height: 180px;
     margin-bottom: 1rem;
   }
-  
+
   .track {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .track-album,
   .track-duration {
     margin-left: 0;
@@ -317,11 +317,11 @@ body {
   #app {
     padding: 10px;
   }
-  
+
   #playlist-name {
     font-size: 1.75rem;
   }
-  
+
   /* Adjust track layout to vertical & centered */
   .track {
     padding: 0.8rem;
@@ -329,17 +329,17 @@ body {
     align-items: center;
     text-align: center;
   }
-  
+
   .track-number {
     font-size: 0.9rem;
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
-  
+
   .track-info {
     align-items: center;
   }
-  
+
   .track-album,
   .track-duration {
     margin-left: 0;
@@ -443,7 +443,7 @@ a:focus {
   .track {
     grid-template-columns: 40px 1fr auto auto;
   }
-  
+
   .track-album {
     display: none;
   }
@@ -453,7 +453,7 @@ a:focus {
   .playlist-description {
     max-width: 100%;
   }
-  
+
   #downloadAlbumsBtn {
     margin-top: 0.5rem;
   }
@@ -463,7 +463,7 @@ a:focus {
   .track {
     grid-template-columns: 30px 1fr auto;
   }
-  
+
   .playlist-description {
     margin-bottom: 1rem;
   }

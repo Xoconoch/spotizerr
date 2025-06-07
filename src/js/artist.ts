@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (queueIcon) {
     queueIcon.addEventListener('click', () => downloadQueue.toggleVisibility());
   }
-  
+
   // Attempt to set initial watchlist button visibility from cache
   const watchlistButton = document.getElementById('watchlistButton') as HTMLAnchorElement | null;
   if (watchlistButton) {
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   updateWatchlistButtonVisibility();
-  
+
   // Initialize the watch button after main artist rendering
   // This is done inside renderArtist after button element is potentially created.
 });
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWatchEnabled: boolean) {
   const loadingEl = document.getElementById('loading');
   if (loadingEl) loadingEl.classList.add('hidden');
-  
+
   const errorEl = document.getElementById('error');
   if (errorEl) errorEl.classList.add('hidden');
 
@@ -284,7 +284,7 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
     // Use the definitively fetched watch status for rendering album buttons
     // const isArtistWatched = watchArtistBtn && watchArtistBtn.dataset.watching === 'true'; // Old way
     // const useThisWatchStatusForAlbums = isArtistActuallyWatched; // Old way, now combination of global and individual
-    
+
     for (const [groupType, albums] of Object.entries(albumGroups)) {
       const groupSection = document.createElement('section');
       groupSection.className = 'album-group';
@@ -311,7 +311,7 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
         const albumElement = document.createElement('div');
         albumElement.className = 'album-card';
         albumElement.dataset.albumId = album.id;
-        
+
         let albumCardHTML = `
           <a href="/album/${album.id || ''}" class="album-link">
             <img src="${album.images?.[1]?.url || album.images?.[0]?.url || '/static/images/placeholder.jpg'}"
@@ -329,11 +329,11 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
         albumCardActions.className = 'album-card-actions';
 
         // Persistent Mark as Known/Missing button (if artist is watched) - Appears first (left)
-        if (isGlobalWatchEnabled && isArtistActuallyWatched && album.id) { 
+        if (isGlobalWatchEnabled && isArtistActuallyWatched && album.id) {
           const toggleKnownBtn = document.createElement('button');
-          toggleKnownBtn.className = 'toggle-known-status-btn persistent-album-action-btn'; 
-          toggleKnownBtn.dataset.albumId = album.id; 
-          
+          toggleKnownBtn.className = 'toggle-known-status-btn persistent-album-action-btn';
+          toggleKnownBtn.dataset.albumId = album.id;
+
           if (album.is_locally_known) {
             toggleKnownBtn.dataset.status = 'known';
             toggleKnownBtn.innerHTML = '<img src="/static/images/check.svg" alt="Mark as missing">';
@@ -351,11 +351,11 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
         // Persistent Download Button (if not explicit filter) - Appears second (right)
         if (!isExplicitFilterEnabled) {
           const downloadBtn = document.createElement('button');
-          downloadBtn.className = 'download-btn download-btn--circle persistent-download-btn'; 
+          downloadBtn.className = 'download-btn download-btn--circle persistent-download-btn';
           downloadBtn.innerHTML = '<img src="/static/images/download.svg" alt="Download album">';
           downloadBtn.title = 'Download this album';
           downloadBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             e.stopPropagation();
             downloadBtn.disabled = true;
             downloadBtn.innerHTML = '<img src="/static/images/refresh.svg" alt="Queueing..." class="icon-spin">';
@@ -373,12 +373,12 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
           });
           albumCardActions.appendChild(downloadBtn); // Add to actions container
         }
-        
+
         // Only append albumCardActions if it has any buttons
         if (albumCardActions.hasChildNodes()) {
             albumElement.appendChild(albumCardActions);
         }
-        
+
         albumsListContainer.appendChild(albumElement);
       });
       groupSection.appendChild(albumsListContainer);
@@ -422,14 +422,14 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
           </div>
         `;
         albumElement.innerHTML = albumCardHTML;
-        
+
         const albumCardActions_AppearsOn = document.createElement('div');
         albumCardActions_AppearsOn.className = 'album-card-actions';
 
         // Persistent Mark as Known/Missing button for appearing_on albums (if artist is watched) - Appears first (left)
         if (isGlobalWatchEnabled && isArtistActuallyWatched && album.id) {
             const toggleKnownBtn = document.createElement('button');
-            toggleKnownBtn.className = 'toggle-known-status-btn persistent-album-action-btn'; 
+            toggleKnownBtn.className = 'toggle-known-status-btn persistent-album-action-btn';
             toggleKnownBtn.dataset.albumId = album.id;
             if (album.is_locally_known) {
                 toggleKnownBtn.dataset.status = 'known';
@@ -448,7 +448,7 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
         // Persistent Download Button for appearing_on albums (if not explicit filter) - Appears second (right)
         if (!isExplicitFilterEnabled) {
           const downloadBtn = document.createElement('button');
-          downloadBtn.className = 'download-btn download-btn--circle persistent-download-btn'; 
+          downloadBtn.className = 'download-btn download-btn--circle persistent-download-btn';
           downloadBtn.innerHTML = '<img src="/static/images/download.svg" alt="Download album">';
           downloadBtn.title = 'Download this album';
           downloadBtn.addEventListener('click', (e) => {
@@ -470,7 +470,7 @@ async function renderArtist(artistData: ArtistData, artistId: string, isGlobalWa
           });
           albumCardActions_AppearsOn.appendChild(downloadBtn); // Add to actions container
         }
-        
+
         // Only append albumCardActions_AppearsOn if it has any buttons
         if (albumCardActions_AppearsOn.hasChildNodes()) {
             albumElement.appendChild(albumCardActions_AppearsOn);
@@ -539,7 +539,7 @@ function attachAlbumActionListeners(artistIdForContext: string, isGlobalWatchEna
       }
       const albumId = button.dataset.albumId;
       const currentStatus = button.dataset.status;
-      
+
       // Optimistic UI update
       button.disabled = true;
       const originalIcon = button.innerHTML; // Save original icon
@@ -638,14 +638,14 @@ async function startDownload(itemId: string, type: string, item: { name: string,
     showError('Missing ID or type for download');
     return Promise.reject(new Error('Missing ID or type for download')); // Return a rejected promise
   }
-  
+
   try {
     // Use the centralized downloadQueue.download method for all downloads including artist downloads
     const result = await downloadQueue.download(itemId, type, item, albumType);
-    
+
     // Make the queue visible after queueing
     downloadQueue.toggleVisibility(true);
-    
+
     // Return the result for tracking
     return result;
   } catch (error: any) { // Add type for error
@@ -693,7 +693,7 @@ async function watchArtist(artistId: string): Promise<void> {
       throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
     }
     // Optionally handle success message from response.json()
-    await response.json(); 
+    await response.json();
   } catch (error) {
     console.error('Error watching artist:', error);
     showError('Failed to watch artist.');
@@ -749,13 +749,13 @@ async function initializeWatchButton(artistId: string, initialIsWatching: boolea
   if (!watchArtistBtn) return;
 
   try {
-    watchArtistBtn.disabled = true; 
-    if (syncArtistBtn) syncArtistBtn.disabled = true; 
+    watchArtistBtn.disabled = true;
+    if (syncArtistBtn) syncArtistBtn.disabled = true;
 
     // const isWatching = await getArtistWatchStatus(artistId); // No longer fetch here, use parameter
     updateWatchButton(artistId, initialIsWatching); // Use passed status
     watchArtistBtn.disabled = false;
-    if (syncArtistBtn) syncArtistBtn.disabled = !(watchArtistBtn.dataset.watching === 'true'); 
+    if (syncArtistBtn) syncArtistBtn.disabled = !(watchArtistBtn.dataset.watching === 'true');
 
     watchArtistBtn.addEventListener('click', async () => {
       const currentlyWatching = watchArtistBtn.dataset.watching === 'true';
@@ -775,7 +775,7 @@ async function initializeWatchButton(artistId: string, initialIsWatching: boolea
           // The click handler itself does not need to pass isGlobalWatchEnabled to renderArtist, renderArtist's caller does.
           // Let's ensure renderArtist is called correctly after watch/unwatch.
           const globalWatchConfig = await getGlobalWatchConfig(); // Re-fetch for re-render
-          renderArtist(newArtistData, artistId, globalWatchConfig.enabled); 
+          renderArtist(newArtistData, artistId, globalWatchConfig.enabled);
         } else {
           await watchArtist(artistId);
           updateWatchButton(artistId, true);
@@ -786,10 +786,10 @@ async function initializeWatchButton(artistId: string, initialIsWatching: boolea
         }
       } catch (error) {
         // On error, revert button to its state before the click attempt
-        updateWatchButton(artistId, currentlyWatching); 
+        updateWatchButton(artistId, currentlyWatching);
       }
       watchArtistBtn.disabled = false;
-      if (syncArtistBtn) syncArtistBtn.disabled = !(watchArtistBtn.dataset.watching === 'true'); 
+      if (syncArtistBtn) syncArtistBtn.disabled = !(watchArtistBtn.dataset.watching === 'true');
     });
 
     // Add event listener for the sync button
@@ -799,11 +799,11 @@ async function initializeWatchButton(artistId: string, initialIsWatching: boolea
         const originalButtonContent = syncArtistBtn.innerHTML; // Store full HTML
         const textNode = Array.from(syncArtistBtn.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
         const originalText = textNode ? textNode.nodeValue : 'Sync Watched Artist'; // Fallback text
-        
+
         syncArtistBtn.innerHTML = `<img src="/static/images/refresh.svg" alt="Sync"> Syncing...`; // Keep icon
         try {
           await triggerArtistSync(artistId);
-          showNotification('Artist sync triggered successfully.'); 
+          showNotification('Artist sync triggered successfully.');
         } catch (error) {
           // Error is shown by triggerArtistSync
         }
@@ -814,7 +814,7 @@ async function initializeWatchButton(artistId: string, initialIsWatching: boolea
 
   } catch (error) {
     if (watchArtistBtn) watchArtistBtn.disabled = false;
-    if (syncArtistBtn) syncArtistBtn.disabled = true; 
+    if (syncArtistBtn) syncArtistBtn.disabled = true;
     updateWatchButton(artistId, false); // On error fetching initial status (though now it's passed)
                                       // This line might be less relevant if initialIsWatching is guaranteed by caller
                                       // but as a fallback it sets to a non-watching state.

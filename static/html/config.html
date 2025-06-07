@@ -85,8 +85,8 @@
         <div class="config-item">
           <label for="maxConcurrentDownloads">Max Concurrent Downloads:</label>
           <input type="number" id="maxConcurrentDownloads" min="1" value="3" class="form-input">
-        </div>      
-        
+        </div>
+
         <!-- New Conversion Options -->
         <h2 class="section-title">Conversion Settings</h2>
         <div class="config-item">
@@ -137,10 +137,10 @@
         <h2 class="section-title">Formatting Options</h2>
         <div class="config-item">
           <label>Custom Directory Format:</label>
-          <input 
-            type="text" 
-            id="customDirFormat" 
-            placeholder="e.g. %artist%/%album%" 
+          <input
+            type="text"
+            id="customDirFormat"
+            placeholder="e.g. %artist%/%album%"
             class="form-input"
           />
           <div class="format-help">
@@ -190,10 +190,10 @@
         </div>
         <div class="config-item">
           <label>Custom Track Format:</label>
-          <input 
-            type="text" 
-            id="customTrackFormat" 
-            placeholder="e.g. %tracknum% - %music%" 
+          <input
+            type="text"
+            id="customTrackFormat"
+            placeholder="e.g. %tracknum% - %music%"
             class="form-input"
           />
           <div class="format-help">
@@ -391,7 +391,7 @@
   <a href="/" class="back-button floating-icon settings-icon" aria-label="Back to app">
     <img src="{{ url_for('static', filename='images/arrow-left.svg') }}" alt="Back" />
   </a>
-  
+
   <a id="watchlistButton" href="/watchlist" class="btn-icon watchlist-icon floating-icon hidden" aria-label="Watchlist" title="Go to Watchlist">
     <img src="{{ url_for('static', filename='images/binoculars.svg') }}" alt="Watchlist" onerror="handleImageError(this)"/>
   </a>
@@ -399,7 +399,7 @@
   <button
     id="queueIcon"
     class="btn-icon queue-icon floating-icon"
-    aria-label="Download queue" 
+    aria-label="Download queue"
     aria-controls="downloadQueue"
     aria-expanded="false"
   >

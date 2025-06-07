@@ -28,9 +28,9 @@ interface WatchedPlaylistOwner { // Kept as is, used by PlaylistFromWatchList
 interface PlaylistFromWatchList {
   spotify_id: string; // Changed from id to spotify_id
   name: string;
-  owner?: WatchedPlaylistOwner; 
+  owner?: WatchedPlaylistOwner;
   images?: Image[]; // Ensure images can be part of this initial fetch
-  total_tracks?: number; 
+  total_tracks?: number;
 }
 
 // New interface for playlists after initial processing (spotify_id mapped to id)
@@ -97,8 +97,8 @@ type FinalCardItem = FinalArtistCardItem | FinalPlaylistCardItem;
 
 // The type for items initially fetched from /watch/list, before detailed processing
 // Updated to use ProcessedArtistFromWatchList for artists and ProcessedPlaylistFromWatchList for playlists
-type InitialWatchedItem = 
-  (ProcessedArtistFromWatchList & { itemType: 'artist' }) | 
+type InitialWatchedItem =
+  (ProcessedArtistFromWatchList & { itemType: 'artist' }) |
   (ProcessedPlaylistFromWatchList & { itemType: 'playlist' });
 
 // Interface for a settled promise (fulfilled)
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Ensure the main loading indicator is also hidden if it was shown by default
     if (loadingIndicator) loadingIndicator.classList.add('hidden');
   }
-}); 
+});
 
 const MAX_NOTIFICATIONS = 3;
 
@@ -287,15 +287,15 @@ async function loadWatchedItems() {
     const playlists: PlaylistFromWatchList[] = await playlistsResponse.json();
 
     const initialItems: InitialWatchedItem[] = [
-      ...artists.map(artist => ({ 
-        ...artist, 
+      ...artists.map(artist => ({
+        ...artist,
         id: artist.spotify_id, // Map spotify_id to id for artists
-        itemType: 'artist' as const 
+        itemType: 'artist' as const
       })),
-      ...playlists.map(playlist => ({ 
-        ...playlist, 
+      ...playlists.map(playlist => ({
+        ...playlist,
         id: playlist.spotify_id, // Map spotify_id to id for playlists
-        itemType: 'playlist' as const 
+        itemType: 'playlist' as const
       }))
     ];
 
@@ -374,7 +374,7 @@ async function loadWatchedItems() {
 
     // Simulating Promise.allSettled behavior for compatibility
     const settledResults: CustomSettledPromiseResult<FinalCardItem>[] = await Promise.all(
-      detailedItemPromises.map(p => 
+      detailedItemPromises.map(p =>
         p.then(value => ({ status: 'fulfilled', value } as CustomPromiseFulfilledResult<FinalCardItem>))
          .catch(reason => ({ status: 'rejected', reason } as CustomPromiseRejectedResult))
       )
@@ -510,7 +510,7 @@ function createWatchedItemCard(item: FinalCardItem): HTMLDivElement {
     }
   }
 
-  cardElement.innerHTML = ` 
+  cardElement.innerHTML = `
     <div class="item-art-wrapper">
       <img class="item-art" src="${imageUrl}" alt="${item.name}" onerror="handleImageError(this)">
     </div>
@@ -531,7 +531,7 @@ function createWatchedItemCard(item: FinalCardItem): HTMLDivElement {
   cardElement.addEventListener('click', (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       // Don't navigate if any button within the card was clicked
-      if (target.closest('button')) { 
+      if (target.closest('button')) {
           return;
       }
       window.location.href = `/${item.itemType}/${item.id}`;
@@ -541,7 +541,7 @@ function createWatchedItemCard(item: FinalCardItem): HTMLDivElement {
   const checkNowBtn = cardElement.querySelector('.check-item-now-btn') as HTMLButtonElement | null;
   if (checkNowBtn) {
       checkNowBtn.addEventListener('click', (e: MouseEvent) => {
-          e.stopPropagation(); 
+          e.stopPropagation();
           const itemId = checkNowBtn.dataset.id;
           const itemType = checkNowBtn.dataset.type as 'artist' | 'playlist';
           if (itemId && itemType) {
@@ -591,7 +591,7 @@ async function unwatchItem(itemId: string, itemType: 'artist' | 'playlist', butt
     }
     const result = await response.json();
     showNotification(result.message || `${itemType.charAt(0).toUpperCase() + itemType.slice(1)} unwatched successfully.`);
-    
+
     cardElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     cardElement.style.opacity = '0';
     cardElement.style.transform = 'scale(0.9)';
@@ -614,7 +614,7 @@ async function unwatchItem(itemId: string, itemType: 'artist' | 'playlist', butt
         if (totalItemsLeft === 0) {
             // If all items are gone (either from groups or directly), reload to show empty state.
             // This also correctly handles the case where the initial list had <= 8 items.
-            loadWatchedItems(); 
+            loadWatchedItems();
         }
 
     }, 500);
@@ -632,7 +632,7 @@ async function triggerItemCheck(itemId: string, itemType: 'artist' | 'playlist',
   buttonElement.disabled = true;
   // Keep the icon, but we can add a class for spinning or use the same icon.
   // For simplicity, just using the same icon. Text "Checking..." is removed.
-  buttonElement.innerHTML = '<img src="/static/images/refresh.svg" alt="Checking...">'; 
+  buttonElement.innerHTML = '<img src="/static/images/refresh.svg" alt="Checking...">';
 
   const endpoint = `/api/${itemType}/watch/trigger_check/${itemId}`;
 
@@ -656,7 +656,7 @@ async function triggerItemCheck(itemId: string, itemType: 'artist' | 'playlist',
 // Helper function to show notifications (can be moved to a shared utility file if used elsewhere)
 function showNotification(message: string, isError: boolean = false) {
   const notificationArea = document.getElementById('notificationArea') || createNotificationArea();
-  
+
   // Limit the number of visible notifications
   while (notificationArea.childElementCount >= MAX_NOTIFICATIONS) {
     const oldestNotification = notificationArea.firstChild; // In column-reverse, firstChild is visually the bottom one
@@ -670,9 +670,9 @@ function showNotification(message: string, isError: boolean = false) {
   const notification = document.createElement('div');
   notification.className = `notification-toast ${isError ? 'error' : 'success'}`;
   notification.textContent = message;
-  
+
   notificationArea.appendChild(notification);
-  
+
   // Auto-remove after 5 seconds
   setTimeout(() => {
     notification.classList.add('hide');
@@ -685,4 +685,4 @@ function createNotificationArea(): HTMLElement {
   area.id = 'notificationArea';
   document.body.appendChild(area);
   return area;
-} 
+}

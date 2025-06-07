@@ -206,23 +206,23 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const url = `/api/search?q=${encodeURIComponent(currentQuery)}&search_type=${currentSearchType}&limit=40`;
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            
+
             const data = await response.json() as SearchResponse; // Assert type for API response
-            
+
             // Hide loading indicator
             showLoading(false);
-            
+
             // Render results
             if (data && data.items && data.items.length > 0) {
                 if(resultsContainer) resultsContainer.innerHTML = '';
-                
+
                 // Filter out items with null/undefined essential display parameters
                 const validItems = filterValidItems(data.items, currentSearchType);
-                
+
                 if (validItems.length === 0) {
                     // No valid items found after filtering
                     if(resultsContainer) resultsContainer.innerHTML = `
@@ -232,19 +232,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     return;
                 }
-                
+
                 validItems.forEach((item, index) => {
                     const cardElement = createResultCard(item, currentSearchType, index);
-                    
+
                     // Store the item data directly on the button element
                     const downloadBtn = cardElement.querySelector('.download-btn') as HTMLButtonElement | null;
                     if (downloadBtn) {
                         downloadBtn.dataset.itemIndex = index.toString();
                     }
-                    
+
                     if(resultsContainer) resultsContainer.appendChild(cardElement);
                 });
-                
+
                 // Attach download handlers to the newly created cards
                 attachDownloadListeners(validItems);
             } else {
@@ -271,63 +271,63 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function filterValidItems(items: SearchResultItem[], type: string): SearchResultItem[] {
         if (!items) return [];
-        
+
         return items.filter(item => {
             // Skip null/undefined items
             if (!item) return false;
-            
+
             // Skip explicit content if filter is enabled
             if (downloadQueue.isExplicitFilterEnabled() && ('explicit' in item && item.explicit === true)) {
                 return false;
             }
-            
+
             // Check essential parameters based on search type
             switch (type) {
                 case 'track':
                     const trackItem = item as TrackResultItem;
                     return (
                         trackItem.name &&
-                        trackItem.artists && 
+                        trackItem.artists &&
                         trackItem.artists.length > 0 &&
-                        trackItem.artists[0] && 
+                        trackItem.artists[0] &&
                         trackItem.artists[0].name &&
-                        trackItem.album && 
+                        trackItem.album &&
                         trackItem.album.name &&
-                        trackItem.external_urls && 
+                        trackItem.external_urls &&
                         trackItem.external_urls.spotify
                     );
-                    
+
                 case 'album':
                     const albumItem = item as AlbumResultItem;
                     return (
                         albumItem.name &&
-                        albumItem.artists && 
+                        albumItem.artists &&
                         albumItem.artists.length > 0 &&
-                        albumItem.artists[0] && 
+                        albumItem.artists[0] &&
                         albumItem.artists[0].name &&
-                        albumItem.external_urls && 
+                        albumItem.external_urls &&
                         albumItem.external_urls.spotify
                     );
-                    
+
                 case 'playlist':
                     const playlistItem = item as PlaylistResultItem;
                     return (
                         playlistItem.name &&
-                        playlistItem.owner && 
+                        playlistItem.owner &&
                         playlistItem.owner.display_name &&
                         playlistItem.tracks &&
-                        playlistItem.external_urls && 
+                        playlistItem.external_urls &&
                         playlistItem.external_urls.spotify
                     );
-                    
+
                 case 'artist':
                     const artistItem = item as ArtistResultItem;
                     return (
                         artistItem.name &&
-                        artistItem.external_urls && 
+                        artistItem.external_urls &&
                         artistItem.external_urls.spotify
                     );
-                    
+
                 default:
                     // Default case - just check if the item exists (already handled by `if (!item) return false;`)
                     return true;
@@ -343,69 +343,69 @@ document.addEventListener('DOMContentLoaded', function() {
             const btn = btnElm as HTMLButtonElement;
             btn.addEventListener('click', (e: Event) => {
                 e.stopPropagation();
-                
+
                 // Get the item index from the button's dataset
                 const itemIndexStr = btn.dataset.itemIndex;
                 if (!itemIndexStr) return;
                 const itemIndex = parseInt(itemIndexStr, 10);
-                
+
                 // Get the corresponding item
                 const item = items[itemIndex];
                 if (!item) return;
-                
+
                 const currentSearchType = searchType?.value || 'track';
                 let itemId = item.id || ''; // Use item.id directly
-                
+
                 if (!itemId) { // Check if ID was found
                     showError('Could not determine download ID');
                     return;
                 }
-                
+
                 // Prepare metadata for the download
                 let metadata: DownloadQueueItem;
                 if (currentSearchType === 'track') {
                     const trackItem = item as TrackResultItem;
-                    metadata = { 
+                    metadata = {
                         name: trackItem.name || 'Unknown',
                         artist: trackItem.artists ? trackItem.artists[0]?.name : undefined,
                         album: trackItem.album ? { name: trackItem.album.name, album_type: trackItem.album.album_type } : undefined
                     };
                 } else if (currentSearchType === 'album') {
                     const albumItem = item as AlbumResultItem;
-                    metadata = { 
+                    metadata = {
                         name: albumItem.name || 'Unknown',
                         artist: albumItem.artists ? albumItem.artists[0]?.name : undefined,
                         album: { name: albumItem.name, album_type: albumItem.album_type}
                     };
                 } else if (currentSearchType === 'playlist') {
                     const playlistItem = item as PlaylistResultItem;
-                    metadata = { 
+                    metadata = {
                         name: playlistItem.name || 'Unknown',
                         // artist for playlist is owner
                         artist: playlistItem.owner?.display_name
                     };
                 } else if (currentSearchType === 'artist') {
                     const artistItem = item as ArtistResultItem;
-                    metadata = { 
+                    metadata = {
                         name: artistItem.name || 'Unknown',
                         artist: artistItem.name // For artist type, artist is the item name itself
                     };
                 } else {
                     metadata = { name: item.name || 'Unknown' }; // Fallback
                 }
-                
+
                 // Disable the button and update text
                 btn.disabled = true;
-                
+
                 // For artist downloads, show a different message since it will queue multiple albums
                 if (currentSearchType === 'artist') {
                     btn.innerHTML = 'Queueing albums...';
                 } else {
                     btn.innerHTML = 'Queueing...';
                 }
-                
+
                 // Start the download
-                startDownload(itemId, currentSearchType, metadata, 
+                startDownload(itemId, currentSearchType, metadata,
                     (item as AlbumResultItem).album_type || ((item as TrackResultItem).album ? (item as TrackResultItem).album.album_type : null))
                     .then(() => {
                         // For artists, show how many albums were queued
@@ -434,11 +434,11 @@ document.addEventListener('DOMContentLoaded', function() {
             showError('Missing ID or type for download');
             return;
         }
-        
+
         try {
             // Use the centralized downloadQueue.download method
             await downloadQueue.download(itemId, type, item, albumType);
-            
+
             // Make the queue visible after queueing
             downloadQueue.toggleVisibility(true);
         } catch (error: any) {
@@ -455,11 +455,11 @@ document.addEventListener('DOMContentLoaded', function() {
         errorDiv.className = 'error';
         errorDiv.textContent = message;
         document.body.appendChild(errorDiv);
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => errorDiv.remove(), 5000);
     }
-    
+
     /**
      * Shows a success message
      */
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
         successDiv.className = 'success';
         successDiv.textContent = message;
         document.body.appendChild(successDiv);
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => successDiv.remove(), 5000);
     }
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * Checks if a string is a valid Spotify URL
      */
     function isSpotifyUrl(url: string): boolean {
-        return url.includes('open.spotify.com') || 
+        return url.includes('open.spotify.com') ||
                url.includes('spotify:') ||
                url.includes('link.tospotify.com');
     }
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Allow optional path segments (e.g. intl-fr) before resource type
         const regex = /spotify\.com\/(?:[^\/]+\/)??(track|album|playlist|artist)\/([a-zA-Z0-9]+)/i;
         const match = url.match(regex);
-        
+
         if (match) {
             return {
                 type: match[1],
@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function msToMinutesSeconds(ms: number | undefined): string {
         if (!ms) return '0:00';
-        
+
         const minutes = Math.floor(ms / 60000);
         const seconds = ((ms % 60000) / 1000).toFixed(0);
         return `${minutes}:${seconds.padStart(2, '0')}`;
@@ -516,10 +516,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function createResultCard(item: SearchResultItem, type: string, index: number): HTMLDivElement {
         const cardElement = document.createElement('div');
         cardElement.className = 'result-card';
-        
+
         // Set cursor to pointer for clickable cards
         cardElement.style.cursor = 'pointer';
-        
+
         // Get the appropriate image URL
         let imageUrl = '/static/images/placeholder.jpg';
         // Type guards to safely access images
@@ -539,11 +539,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 imageUrl = playlistItem.images[0].url;
             }
         }
-        
+
         // Get the appropriate details based on type
         let subtitle = '';
         let details = '';
-        
+
         switch (type) {
             case 'track':
                 {
@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 break;
         }
-        
+
         // Build the HTML
         cardElement.innerHTML = `
             <div class="album-art-wrapper">
@@ -584,25 +584,25 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="track-artist">${subtitle}</div>
             <div class="track-details">${details}</div>
             <button class="download-btn btn-primary" data-item-index="${index}">
-                <img src="/static/images/download.svg" alt="Download" /> 
+                <img src="/static/images/download.svg" alt="Download" />
                 Download
             </button>
         `;
-        
+
         // Add click event to navigate to the item's detail page
         cardElement.addEventListener('click', (e: MouseEvent) => {
             // Don't trigger if the download button was clicked
             const target = e.target as HTMLElement;
-            if (target.classList.contains('download-btn') || 
+            if (target.classList.contains('download-btn') ||
                 target.parentElement?.classList.contains('download-btn')) {
                 return;
             }
-            
+
             if (item.id) {
                 window.location.href = `/${type}/${item.id}`;
             }
         });
-        
+
         return cardElement;
     }
 

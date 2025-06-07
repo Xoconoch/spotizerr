@@ -33,16 +33,16 @@
           <option value="artist">Artists</option>
         </select>
       </div>
-      
+
       <button class="search-button btn-primary" id="searchButton" aria-label="Search">
         <img src="{{ url_for('static', filename='images/search.svg') }}" alt="" />
         Search
       </button>
     </div>
-    
+
     <!-- Results container -->
     <div id="resultsContainer" class="results-grid"></div>
-    
+
     <!-- Empty state when there are no results -->
     <div id="emptyState" class="empty-state">
       <div class="empty-state-content">
@@ -51,13 +51,13 @@
         <p>Find and download your favorite tracks, albums, playlists or artists</p>
       </div>
     </div>
-    
+
     <!-- Loading indicator -->
     <div id="loadingResults" class="loading hidden">
       <div class="loading-indicator">Searching...</div>
     </div>
   </div>
-  
+
   <!-- Fixed floating buttons for settings and queue -->
   <a href="/history" class="btn-icon history-nav-btn floating-icon settings-icon" aria-label="Download History" title="Go to Download History">
     <img src="{{ url_for('static', filename='images/history.svg') }}" alt="History" onerror="handleImageError(this)"/>
@@ -65,11 +65,11 @@
   <a href="/config" class="btn-icon settings-icon floating-icon" aria-label="Settings">
     <img src="{{ url_for('static', filename='images/settings.svg') }}" alt="Settings" onerror="handleImageError(this)"/>
   </a>
-  
+
   <a id="watchlistButton" href="/watchlist" class="btn-icon watchlist-icon floating-icon hidden" aria-label="Watchlist" title="Go to Watchlist">
     <img src="{{ url_for('static', filename='images/binoculars.svg') }}" alt="Watchlist" onerror="handleImageError(this)"/>
   </a>
-  
+
   <button
     id="queueIcon"
     class="btn-icon queue-icon floating-icon"
@@ -79,7 +79,7 @@
   >
     <img src="{{ url_for('static', filename='images/queue.svg') }}" alt="" onerror="handleImageError(this)"/>
   </button>
-  
+
   <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
