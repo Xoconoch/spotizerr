@@ -38,8 +38,8 @@ Music downloader which combines the best of two worlds: Spotify's catalog and De
 ## Prerequisites
 
 - Docker, duh
-- Spotify credentials (see [Spotify Credentials Setup](#spotify-credentials-setup))
-- Spotify client ID and client secret (see [Spotify Developer Setup](#spotify-developer-setup))
+- Spotify credentials (see [Spotify Credentials Setup](https://github.com/Xoconoch/spotizerr-auth?tab=readme-ov-file#prerequisites))
+- Spotify client ID and client secret (see [Spotify Developer Setup](https://developer.spotify.com/dashboard))
 - Deezer ARL token (see [Deezer ARL Setup](#deezer-arl-setup))
 
 ## Installation
